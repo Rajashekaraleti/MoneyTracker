@@ -65,15 +65,10 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         logout()
-
         accountDetails()
-
         setInitDate()
-
         chartMenu()
-
         Handler().postDelayed({
             showAllTimeRecap()
             setupPieChart()
@@ -165,37 +160,14 @@ class AccountFragment : Fragment() {
         val tvEmail: TextView = requireView().findViewById(R.id.tvEmail)
         val tvPicture: TextView = requireView().findViewById(R.id.picture)
         val verified: CardView = requireView().findViewById(R.id.verified)
-        val notVerified: CardView = requireView().findViewById(R.id.notVerified)
+
 
         user?.reload()
         user?.let {
-            // Name and email address
+
             val userName = user!!.displayName
             val email = user!!.email
-
-            if (user!!.isEmailVerified){
-                verified.visibility = View.VISIBLE
-                notVerified.visibility = View.GONE
-
-                verified.setOnClickListener {
-                    Toast.makeText(this@AccountFragment.activity, "Your account is verified!", Toast.LENGTH_LONG).show()
-                }
-            }else{
-                notVerified.visibility = View.VISIBLE
-                verified.visibility = View.GONE
-
-                notVerified.setOnClickListener {
-                    user?.sendEmailVerification()?.addOnCompleteListener {
-                        if (it.isSuccessful){
-                            Toast.makeText(this@AccountFragment.activity, "Check Your Email! (Including Spam)", Toast.LENGTH_LONG).show()
-                        }else{
-                            Toast.makeText(this@AccountFragment.activity, "${it.exception?.message}", Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
-            }
-
-            val splitValue = email?.split("@") //
+            val splitValue = email?.split("@")
             val name = splitValue?.get(0)
             tvName.text = name.toString()
             tvPicture.text = name?.get(0).toString().uppercase()
@@ -350,7 +322,7 @@ class AccountFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
         })
 

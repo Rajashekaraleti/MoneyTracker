@@ -19,12 +19,8 @@ import com.myapp.moneytracker.R
 import java.util.*
 import kotlin.collections.ArrayList
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-
 
 class TransactionFragment : Fragment() {
     private var param1: String? = null
@@ -37,7 +33,6 @@ class TransactionFragment : Fragment() {
     private lateinit var shimmerLoading: ShimmerFrameLayout
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var transactionList: ArrayList<TransactionModel>
-    private lateinit var exportButton: ImageButton
     private lateinit var dbRef: DatabaseReference
     private val user = Firebase.auth.currentUser
     private lateinit var typeOption: Spinner
@@ -64,23 +59,15 @@ class TransactionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initializeItems()
-
         showUserName()
-
-        exportButtonClicked()
-
         visibilityOptions()
-
         transactionRecyclerView = view.findViewById(R.id.rvTransaction)
         transactionRecyclerView.layoutManager = LinearLayoutManager(this.activity)
         transactionRecyclerView.setHasFixedSize(true)
 
         transactionList = arrayListOf<TransactionModel>()
-
         getTransactionData()
-
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh)
         swipeRefreshLayout.setOnRefreshListener {
             getTransactionData()
@@ -89,12 +76,6 @@ class TransactionFragment : Fragment() {
 
     }
 
-    private fun exportButtonClicked() {
-        exportButton.setOnClickListener {
-            val intent = Intent(this@TransactionFragment.activity, ExportData::class.java)
-            startActivity(intent)
-        }
-    }
 
     private fun initializeItems() {
         tvNoData = requireView().findViewById(R.id.tvNoData)
@@ -102,7 +83,6 @@ class TransactionFragment : Fragment() {
         tvNoDataTitle = requireView().findViewById(R.id.tvNoDataTitle)
         tvVisibilityNoData = requireView().findViewById(R.id.visibilityNoData)
         shimmerLoading = requireView().findViewById(R.id.shimmerFrameLayout)
-        exportButton = requireView().findViewById(R.id.exportButton)
     }
 
     private fun showUserName() {
@@ -172,7 +152,7 @@ class TransactionFragment : Fragment() {
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
+
             }
         }
     }
@@ -284,7 +264,7 @@ class TransactionFragment : Fragment() {
                     }
                     shimmerLoading.stopShimmerAnimation()
                     shimmerLoading.visibility = View.GONE
-                }else{ //if there is no data in database
+                }else{
                     shimmerLoading.stopShimmerAnimation()
                     shimmerLoading.visibility = View.GONE
 

@@ -133,8 +133,7 @@ class TransactionDetails : AppCompatActivity() {
 
         val type: Int = intent.getIntExtra("type",0)
         val transactionID = intent.getStringExtra("transactionID")
-
-        //set text to auto complete text view category:
+        
         val categoryOld = (intent.getStringExtra("category"))
         etCategory.setText(categoryOld)
 
@@ -153,7 +152,7 @@ class TransactionDetails : AppCompatActivity() {
         }
         val date: Long = intent.getLongExtra("date", 0)
         val cal = Calendar.getInstance()
-        val getDate = Date(date) //convert millis to date format
+        val getDate = Date(date)
         cal.time = getDate
 
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
@@ -176,7 +175,7 @@ class TransactionDetails : AppCompatActivity() {
 
                     val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
                     val theDate = sdf.parse(selectedDate)
-                    dateUpdate = theDate!!.time //convert date to millisecond
+                    dateUpdate = theDate!!.time
                     invertedDate = dateUpdate * -1
                 },
                 year,
@@ -185,7 +184,6 @@ class TransactionDetails : AppCompatActivity() {
             )
             dpd.show()
         }
-        //-------
 
         mDialog.setTitle("Updating $title's Transaction")
 

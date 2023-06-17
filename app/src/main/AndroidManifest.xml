@@ -17,9 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CatatUang"
         tools:targetApi="31">
-        <activity
-            android:name="com.myapp.moneytracker.ExportData"
-            android:exported="false" />
+        
         <activity
             android:name="com.myapp.moneytracker.ForgotPassword"
             android:exported="false"

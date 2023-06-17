@@ -14,7 +14,6 @@ import kotlin.collections.ArrayList
 class TransactionAdapter (private val transactionList: ArrayList<TransactionModel>) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>(){
 
     private lateinit var mListener: onItemClickListener
-
     interface onItemClickListener{
         fun onItemClick(position: Int)
     }
@@ -33,7 +32,7 @@ class TransactionAdapter (private val transactionList: ArrayList<TransactionMode
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentTransaction = transactionList[position]
-        holder.tvTransactionTitle.text = currentTransaction.title // get the current title
+        holder.tvTransactionTitle.text = currentTransaction.title
 
         if (currentTransaction.type == 1){
             holder.tvTransactionAmount.setTextColor(Color.parseColor("#ff9f1c"))

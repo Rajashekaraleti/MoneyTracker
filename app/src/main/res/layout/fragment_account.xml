@@ -104,43 +104,11 @@
                                 android:visibility="invisible"
                                 app:cardCornerRadius="20dp">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:drawableLeft="@drawable/ic_verified_svgrepo_com"
-                                    android:drawablePadding="7dp"
-                                    android:gravity="center"
-                                    android:text="Verified Account"
-                                    android:textColor="#3FCEC0"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold" />
+
 
                             </com.google.android.material.card.MaterialCardView>
 
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/notVerified"
-                                android:layout_width="100dp"
-                                android:layout_height="22dp"
-                                android:layout_below="@id/tvEmail"
-                                android:layout_marginTop="-7dp"
-                                android:backgroundTint="@color/white"
-                                android:visibility="visible"
-                                app:cardCornerRadius="20dp">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:drawableLeft="@drawable/ic_not_verified_svgrepo_com"
-                                    android:drawablePadding="7dp"
-                                    android:gravity="center"
-                                    android:text="Not Verified"
-                                    android:textColor="#B8B8B8"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold" />
-
-                            </com.google.android.material.card.MaterialCardView>
 
                         </RelativeLayout>
 
