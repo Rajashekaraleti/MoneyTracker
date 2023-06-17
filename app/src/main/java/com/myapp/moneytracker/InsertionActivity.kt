@@ -25,78 +25,59 @@ class InsertionActivity : AppCompatActivity() {
     private lateinit var rbIncome: RadioButton
     private lateinit var etNote: EditText
     private lateinit var toolbarLinear: LinearLayout
-    private var type: Int = 1 //expense is the default value
+    private var type: Int = 1
     private var amount: Double = 0.0
     private var date: Long = 0
     private var invertedDate: Long = 0
 
-    private lateinit var dbRef: DatabaseReference //initialize database
+    private lateinit var dbRef: DatabaseReference
     private lateinit var auth: FirebaseAuth
-
-    //to prevent user input the data more than one,
-    //the problem usually occur when the network is offline (this app haven't support offline Db),
-    //where the user hit the save button multiple times
     private var isSubmitted: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_insertion)
 
-        //---back button---
         val backButton: ImageButton = findViewById(R.id.backBtn)
         backButton.setOnClickListener {
             finish()
         }
-        //--------
-
         initItem()
 
-        // --Initialize Firebase Auth and firebase database--
         val user = Firebase.auth.currentUser
         val uid = user?.uid
         if (uid != null) {
-            dbRef = FirebaseDatabase.getInstance().getReference(uid) //initialize database with uid as the parent
+            dbRef = FirebaseDatabase.getInstance().getReference(uid)
         }
         auth = Firebase.auth
-        //----
 
-        //---category menu dropdown---
         etCategory = findViewById(R.id.category)
-        val listExpense = CategoryOptions.expenseCategory() //getting the arrayList data from CategoryOptions file
+        val listExpense = CategoryOptions.expenseCategory()
         val expenseAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listExpense)
         etCategory.setAdapter(expenseAdapter)
-        //------
 
-        //--radio button option choosing---
         radioGroup.setOnCheckedChangeListener { _, checkedID ->
-            etCategory.text.clear() //clear the category autocompletetextview when the type changes
+            etCategory.text.clear()
             if (checkedID == R.id.rbExpense) {
-                type = 1 //expense
+                type = 1
                 setBackgroundColor()
-                etCategory.setAdapter(expenseAdapter) //if expense type selected, the set list expense array in category menu
+                etCategory.setAdapter(expenseAdapter)
             }
             if (checkedID == R.id.rbIncome){
-                type = 2 //income
+                type = 2
                 setBackgroundColor()
 
-                //if expense type selected, the set list income array in category menu :
                 val listIncome = CategoryOptions.incomeCategory()
                 val incomeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listIncome)
                 etCategory.setAdapter(incomeAdapter)
             }
         }
-        //-----
-
-        //---date picker---
         val sdf = java.text.SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
-        val currentDate = sdf.parse(sdf.format(System.currentTimeMillis())) //take current date
-        date = currentDate!!.time //initialized date value to current date as the default value
+        val currentDate = sdf.parse(sdf.format(System.currentTimeMillis()))
+        date = currentDate!!.time
         etDate.setOnClickListener {
             clickDatePicker()
         }
-        //----
-
-
         btnSaveData.setOnClickListener {
             if (!isSubmitted){
                 saveTransactionData()
@@ -175,10 +156,10 @@ class InsertionActivity : AppCompatActivity() {
         }else if(category.isEmpty()){
             etCategory.error = "Please enter Category"
         }else{
-            amount = etAmount.text.toString().toDouble() //convert to double type
+            amount = etAmount.text.toString().toDouble()
 
             val transactionID = dbRef.push().key!!
-            invertedDate = date * -1 //convert millis value to negative, so it can be sort as descending order
+            invertedDate = date * -1
             val transaction = TransactionModel(transactionID, type, title, category, amount, date, note, invertedDate) //object of data class
 
             dbRef.child(transactionID).setValue(transaction)
@@ -194,8 +175,3 @@ class InsertionActivity : AppCompatActivity() {
     }
 }
 
-/* Catat Uang App,
-   A simple money tracker app.
-   Created By Ferry Dwianta P
-   First Created on 18/05/2022
-*/

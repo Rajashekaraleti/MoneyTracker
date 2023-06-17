@@ -12,7 +12,7 @@ import com.myapp.moneytracker.databinding.ActivitySignUpBinding
 
 class SignUp : AppCompatActivity() {
 
-    private lateinit var firebaseAuth: FirebaseAuth //untuk autentikasi firebase
+    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var binding: ActivitySignUpBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,23 +23,23 @@ class SignUp : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        binding.signupBtn.setOnClickListener { //when the sign up button get click
+        binding.signupBtn.setOnClickListener {
 
             val email = binding.email.text.toString()
             val pass = binding.password.text.toString()
             val confirmPass = binding.passwordRetype.text.toString()
 
-            if (email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()){ //checking is the email match or not
+            if (email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                 if(pass.isNotEmpty() && confirmPass.isNotEmpty()){
                     if (pass == confirmPass){
-                        binding.progressBar.visibility = View.VISIBLE //show loading progress bar
+                        binding.progressBar.visibility = View.VISIBLE
                         firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
-                            if (it.isSuccessful){ //if the sign up succesful then change activity to main activity
+                            if (it.isSuccessful){
                                 val intent = Intent(this, MainActivity::class.java)
                                 Toast.makeText(this, "Sign Up Successful", Toast.LENGTH_LONG).show()
                                 binding.progressBar.visibility = View.GONE
                                 startActivity(intent)
-                            }else{ // jika gagal maka tampilkan pesan error
+                            }else{
                                 binding.progressBar.visibility = View.GONE
                                 Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show()
                             }

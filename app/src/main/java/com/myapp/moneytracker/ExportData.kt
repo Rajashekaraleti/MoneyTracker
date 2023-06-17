@@ -42,10 +42,9 @@ class ExportData : AppCompatActivity() {
     private lateinit var workbook: Workbook
     private lateinit var sheet: Sheet
     private lateinit var headerCellStyle: CellStyle
-
-    // Initialize Firebase Auth and database
+    
     private var user = Firebase.auth.currentUser
-    private val uid = user?.uid //get user id from database
+    private val uid = user?.uid 
     private var dbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference(uid!!)
 
     private val tagPermission: String? = ExportData::class.java.simpleName
@@ -65,8 +64,7 @@ class ExportData : AppCompatActivity() {
         setInitDateRange()
 
         dateRangePicker()
-
-        //Export transaction data to excel file : https://medium.com/geekculture/creating-an-excel-in-android-cd9c22198619
+        
         val exportButton: Button = findViewById(R.id.exportBtn)
         exportButton.setOnClickListener {
             fileName = "Catat_Uang_" + convertDateFileName(dateStart, dateEnd) + ".xls"
@@ -82,19 +80,13 @@ class ExportData : AppCompatActivity() {
     }
 
     private fun exportDataIntoWorkbook() {
-
-        // Check if available and not read only
         if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
             Log.e(TAG, "Storage not available or read only")
 
         }
-
-        //Creating a new HSSF Workbook (.xls format)
         workbook = HSSFWorkbook()
 
         setHeaderCellStyle()
-
-        // Creating a New Sheet and Setting width for each column
         sheet = workbook.createSheet("Transactions")
         sheet.setColumnWidth(0, (15 * 230))
         sheet.setColumnWidth(1, (15 * 230))
@@ -154,14 +146,11 @@ class ExportData : AppCompatActivity() {
                         }
                     }
 
-                    if (transactionList.isEmpty()){ //if there is no data in the selected time range
+                    if (transactionList.isEmpty()){ 
                         Snackbar.make(findViewById(android.R.id.content), "There is no transaction data in the " + convertDate(dateStart, dateEnd) + " date range.", Snackbar.LENGTH_LONG).show()
                     }else{
                         for ((i) in transactionList.withIndex()){
-                            // Create a New Row for every new entry in list
                             val rowData: Row = sheet.createRow(i+1)
-
-                            // Create Cells for each row
                             cell = rowData.createCell(0)
                             val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
                             val result = Date(transactionList[i].date!!)
@@ -251,15 +240,15 @@ class ExportData : AppCompatActivity() {
         val cal: Calendar = Calendar.getInstance(TimeZone.getDefault())
         cal.time = currentDate
 
-        val startDay = cal.getActualMinimum(Calendar.DAY_OF_MONTH) //get the first date of the month
+        val startDay = cal.getActualMinimum(Calendar.DAY_OF_MONTH)
         cal.set(Calendar.DAY_OF_MONTH, startDay)
         val startDate = cal.time
-        dateStart= startDate.time //convert to millis
+        dateStart= startDate.time
 
-        val endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH) //get the last date of the month
+        val endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
         cal.set(Calendar.DAY_OF_MONTH, endDay)
         val endDate = cal.time
-        dateEnd= endDate.time //convert to millis
+        dateEnd= endDate.time
 
         dateRangeEt.hint = "This Month"
     }
@@ -268,8 +257,6 @@ class ExportData : AppCompatActivity() {
         val dateRangeEt: EditText = findViewById(R.id.dateRangeEt)
 
         dateRangeEt.setOnClickListener {
-            // Opens the date range picker with the range of the first day of
-            // the month to today selected.
             val datePicker = MaterialDatePicker.Builder.dateRangePicker()
                 .setTitleText("Select Date")
                 .setSelection(
@@ -279,16 +266,13 @@ class ExportData : AppCompatActivity() {
                     )
                 ).build()
             datePicker.show(supportFragmentManager, "DatePicker")
-
-            // Setting up the event for when ok is clicked
             datePicker.addOnPositiveButtonClickListener {
-                //convert the result from string to long type :
                 val dateString = datePicker.selection.toString()
-                val date: String = dateString.filter { it.isDigit() } //only takes digit value
+                val date: String = dateString.filter { it.isDigit() }
                 //divide the start and end date value :
                 dateStart = date.substring(0,13).toLong()
                 dateEnd  = date.substring(13).toLong()
-                dateRangeEt.hint = convertDate(dateStart, dateEnd) //call function to convert millis to string
+                dateRangeEt.hint = convertDate(dateStart, dateEnd)
             }
         }
     }
@@ -334,10 +318,6 @@ class ExportData : AppCompatActivity() {
         }
         return true
     }
-
-    /**
-     * Method: Show Alert Dialog when User denies permission permanently
-     */
     private fun inflateAlertDialog() {
         // Inflate Alert Dialog
         AlertDialog.Builder(this)
@@ -351,9 +331,6 @@ class ExportData : AppCompatActivity() {
             .show()
     }
 
-    /**
-     * Method: Launch App-Settings Screen
-     */
     private fun launchAppSettings() {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         val uri = Uri.fromParts("package", packageName, null)
@@ -368,8 +345,3 @@ class ExportData : AppCompatActivity() {
     }
 }
 
-/* Catat Uang App,
-   A simple money tracker app.
-   Created By Ferry Dwianta P
-   First Created on 18/05/2022
-*/

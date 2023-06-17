@@ -28,28 +28,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AccountFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AccountFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    // Initialize Firebase Auth and database
     private var auth: FirebaseAuth = Firebase.auth
     private var user = Firebase.auth.currentUser
-    private val uid = user?.uid //get user id from database
+    private val uid = user?.uid
     private var dbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference(uid!!)
 
-    //initialize var for storing amount value from db
     var amountExpense: Double = 0.0
     var amountIncome: Double = 0.0
     var allTimeExpense: Double = 0.0
@@ -70,35 +60,32 @@ class AccountFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_account, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        logout()  //logout button clicked
+        logout()
 
-        accountDetails() //Output Account details from firebase
+        accountDetails()
 
-        setInitDate() //initialized or set the current date data to this month date range, it is default date range when the fragment is open
+        setInitDate()
 
         chartMenu()
 
-        Handler().postDelayed({ //to make setupPieChart() and showAllTimeRecap() start after fetchAmount(), otherwise the setupPieChart() just show 0.0 value
-            showAllTimeRecap() //show all time recap text
+        Handler().postDelayed({
+            showAllTimeRecap()
             setupPieChart()
             setupBarChart()
         }, 200)
 
-        dateRangePicker() //date range picker
-
-        //swipeRefresh()
+        dateRangePicker()
     }
 
     private fun swipeRefresh() {
         val swipeRefreshLayout: SwipeRefreshLayout = requireView().findViewById(R.id.swipeRefresh)
-        swipeRefreshLayout.setOnRefreshListener { //call getTransaction() back to refresh the recyclerview
+        swipeRefreshLayout.setOnRefreshListener {
             accountDetails()
             showAllTimeRecap()
             setupPieChart()
@@ -131,25 +118,23 @@ class AccountFragment : Fragment() {
         val cal: Calendar = Calendar.getInstance(TimeZone.getDefault())
         cal.time = currentDate
 
-        val startDay = cal.getActualMinimum(Calendar.DAY_OF_MONTH) //get the first date of the month
+        val startDay = cal.getActualMinimum(Calendar.DAY_OF_MONTH)
         cal.set(Calendar.DAY_OF_MONTH, startDay)
         val startDate = cal.time
-        dateStart= startDate.time //convert to millis
+        dateStart= startDate.time
 
-        val endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH) //get the last date of the month
+        val endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
         cal.set(Calendar.DAY_OF_MONTH, endDay)
         val endDate = cal.time
-        dateEnd= endDate.time //convert to millis
+        dateEnd= endDate.time
 
-        fetchAmount(dateStart, dateEnd) //call fetch amount so showAllTimeRecap() can be executed
+        fetchAmount(dateStart, dateEnd)
         dateRangeButton.text = "This Month"
     }
 
-    private fun dateRangePicker() { // Material design date range picker : https://material.io/components/date-pickers/android
+    private fun dateRangePicker() {
         val dateRangeButton: Button = requireView().findViewById(R.id.buttonDate)
-        dateRangeButton.setOnClickListener { //when date range picker clicked
-            // Opens the date range picker with the range of the first day of
-            // the month to today selected.
+        dateRangeButton.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.dateRangePicker()
                 .setTitleText("Select Date")
                 .setSelection(
@@ -159,17 +144,13 @@ class AccountFragment : Fragment() {
                     )
                 ).build()
             datePicker.show(parentFragmentManager, "DatePicker")
-
-            // Setting up the event for when ok is clicked
             datePicker.addOnPositiveButtonClickListener {
-                //convert the result from string to long type :
                 val dateString = datePicker.selection.toString()
-                val date: String = dateString.filter { it.isDigit() } //only takes digit value
-                //divide the start and end date value :
+                val date: String = dateString.filter { it.isDigit() }
                 val pickedDateStart = date.substring(0,13).toLong()
                 val pickedDateEnd  = date.substring(13).toLong()
-                dateRangeButton.text = convertDate(pickedDateStart, pickedDateEnd) //call function to convert millis to string
-                fetchAmount(pickedDateStart, pickedDateEnd) //show the report based on date range
+                dateRangeButton.text = convertDate(pickedDateStart, pickedDateEnd)
+                fetchAmount(pickedDateStart, pickedDateEnd)
 
                 Handler().postDelayed({
                     setupPieChart()
@@ -186,13 +167,13 @@ class AccountFragment : Fragment() {
         val verified: CardView = requireView().findViewById(R.id.verified)
         val notVerified: CardView = requireView().findViewById(R.id.notVerified)
 
-        user?.reload() //reload user, so the verified badge can be change once the user have already verified the email.
+        user?.reload()
         user?.let {
             // Name and email address
             val userName = user!!.displayName
             val email = user!!.email
 
-            if (user!!.isEmailVerified){ //check if user email already verified
+            if (user!!.isEmailVerified){
                 verified.visibility = View.VISIBLE
                 notVerified.visibility = View.GONE
 
@@ -233,14 +214,13 @@ class AccountFragment : Fragment() {
         btnLogout.setOnClickListener {
             auth.signOut()
             Intent(this.activity, Login::class.java).also {
-                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK //tujuan flag agar tidak bisa menggunakan back
+                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 activity?.startActivity(it)
             }
         }
     }
 
     private fun showAllTimeRecap() {
-        //---show recap after calculation---
         val tvNetAmount: TextView = requireView().findViewById(R.id.netAmount)
         val tvAmountExpense: TextView = requireView().findViewById(R.id.expenseAmount)
         val tvAmountIncome: TextView = requireView().findViewById(R.id.incomeAmount)
@@ -251,9 +231,8 @@ class AccountFragment : Fragment() {
     }
 
     private fun setupBarChart() {
-        //Bar Chart Library Dependency : https://github.com/PhilJay/MPAndroidChart
         val netAmountRangeDate: TextView = requireView().findViewById(R.id.netAmountRange)
-        netAmountRangeDate.text = "${amountIncome-amountExpense}" //show the net amount on textview
+        netAmountRangeDate.text = "${amountIncome-amountExpense}"
 
         val barChart: BarChart = requireView().findViewById(R.id.barChart)
 
@@ -262,9 +241,7 @@ class AccountFragment : Fragment() {
         barEntries.add(BarEntry(2f, amountIncome.toFloat()))
 
         val xAxisValue= arrayListOf<String>("","Expense", "Income")
-
-        //custom bar chart :
-        barChart.animateXY(500, 500) //create bar chart animation
+        barChart.animateXY(500, 500)
         barChart.description.isEnabled = false
         barChart.setDrawValueAboveBar(true)
         barChart.setDrawBarShadow(false)
@@ -293,8 +270,6 @@ class AccountFragment : Fragment() {
         barDataSet.valueTextColor = Color.BLACK
         barDataSet.valueTextSize = 15f
         barDataSet.isHighlightEnabled = false
-
-        //setup bar data
         val barData = BarData(barDataSet)
         barData.barWidth = 0.5f
 
@@ -303,18 +278,11 @@ class AccountFragment : Fragment() {
 
 
     private fun setupPieChart(){
-        //Pie Chart Library Dependency : https://github.com/PhilJay/MPAndroidChart
-
         val pieChart: PieChart = requireView().findViewById(R.id.pieChart)
-
         val pieEntries = arrayListOf<PieEntry>()
         pieEntries.add(PieEntry(amountExpense.toFloat(), "Expense"))
         pieEntries.add(PieEntry(amountIncome.toFloat(), "Income"))
-
-        //pie chart animation
         pieChart.animateXY(500, 500)
-
-        //setup pie chart colors
         val pieDataSet = PieDataSet(pieEntries,"")
         pieDataSet.setColors(
             resources.getColor(R.color.orangeSecondary),
@@ -327,22 +295,18 @@ class AccountFragment : Fragment() {
         pieChart.setEntryLabelTextSize(12f)
         pieChart.setEntryLabelColor(Color.WHITE)
         pieChart.holeRadius = 46f
-
-        // Setup pie data
         val pieData = PieData(pieDataSet)
-        pieData.setDrawValues(true) //enable the value on each pieEntry
+        pieData.setDrawValues(true)
         pieData.setValueFormatter(PercentFormatter(pieChart))
         pieData.setValueTextSize(12f)
         pieData.setValueTextColor(Color.WHITE)
-
         pieChart.data = pieData
         pieChart.invalidate()
     }
 
-    private fun fetchAmount(dateStart: Long, dateEnd: Long) { //show and calculate transaction recap
+    private fun fetchAmount(dateStart: Long, dateEnd: Long) {
         var amountExpenseTemp = 0.0
         var amountIncomeTemp = 0.0
-
         val transactionList: ArrayList<TransactionModel> = arrayListOf<TransactionModel>()
 
         dbRef.addValueEventListener(object : ValueEventListener {
@@ -351,14 +315,13 @@ class AccountFragment : Fragment() {
                 if (snapshot.exists()) {
                     for (transactionSnap in snapshot.children) {
                         val transactionData =
-                            transactionSnap.getValue(TransactionModel::class.java) //reference data class
+                            transactionSnap.getValue(TransactionModel::class.java)
                         transactionList.add(transactionData!!)
                     }
                 }
-                //separate expanse amount and income amount, and show it based on the range date :
                 for ((i) in transactionList.withIndex()){
                     if (transactionList[i].type == 1 &&
-                        transactionList[i].date!! > dateStart-86400000 && //minus by 1 day
+                        transactionList[i].date!! > dateStart-86400000 &&
                         transactionList[i].date!! <= dateEnd){
                         amountExpenseTemp += transactionList[i].amount!!
                     }else if (transactionList[i].type == 2 &&
@@ -370,7 +333,7 @@ class AccountFragment : Fragment() {
                 amountExpense= amountExpenseTemp
                 amountIncome = amountIncomeTemp
 
-                var amountExpenseTemp = 0.0 //reset
+                var amountExpenseTemp = 0.0
                 var amountIncomeTemp = 0.0
 
                 //take all amount expense and income :
@@ -405,15 +368,13 @@ class AccountFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        showAllTimeRecap() //show all time recap text
+        showAllTimeRecap()
         setupPieChart()
         setupBarChart()
     }
 
 
     companion object {
-
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             AccountFragment().apply {

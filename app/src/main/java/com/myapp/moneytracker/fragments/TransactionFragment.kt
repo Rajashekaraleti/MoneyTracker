@@ -25,13 +25,8 @@ import kotlin.collections.ArrayList
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TransactionFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class TransactionFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var transactionRecyclerView: RecyclerView
@@ -47,8 +42,8 @@ class TransactionFragment : Fragment() {
     private val user = Firebase.auth.currentUser
     private lateinit var typeOption: Spinner
     private lateinit var timeSpanOption: Spinner
-    private var selectedType: String = "All Type"//default is all type
-    private var selectedTimeSpan: String = "All Time" //default is all time
+    private var selectedType: String = "All Type"
+    private var selectedTimeSpan: String = "All Time"
     var dateStart: Long = 0
     var dateEnd: Long = 0
 
@@ -64,7 +59,6 @@ class TransactionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_transaction, container, false)
     }
 
@@ -77,10 +71,8 @@ class TransactionFragment : Fragment() {
 
         exportButtonClicked()
 
-        visibilityOptions() //visibility option spinner
+        visibilityOptions()
 
-
-        //--Recycler View transaction items--
         transactionRecyclerView = view.findViewById(R.id.rvTransaction)
         transactionRecyclerView.layoutManager = LinearLayoutManager(this.activity)
         transactionRecyclerView.setHasFixedSize(true)
@@ -90,11 +82,11 @@ class TransactionFragment : Fragment() {
         getTransactionData()
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh)
-        swipeRefreshLayout.setOnRefreshListener { //call getTransaction() back to refresh the recyclerview
+        swipeRefreshLayout.setOnRefreshListener {
             getTransactionData()
             swipeRefreshLayout.isRefreshing = false
         }
-        //----
+
     }
 
     private fun exportButtonClicked() {
@@ -133,7 +125,6 @@ class TransactionFragment : Fragment() {
     private fun visibilityOptions (){
         typeOption = requireView().findViewById(R.id.typeSpinner) as Spinner
         val typeList = arrayOf("All Type", "Expense", "Income")
-        //typeOption.adapter = ArrayAdapter<String>(this.requireActivity(),android.R.layout.simple_list_item_1,options)
         val typeSpinnerAdapter = ArrayAdapter<String>(this.requireActivity(),R.layout.selected_spinner,typeList)
         typeSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
         typeOption.adapter = typeSpinnerAdapter
@@ -191,37 +182,37 @@ class TransactionFragment : Fragment() {
         val cal: Calendar = Calendar.getInstance(TimeZone.getDefault())
         cal.time = currentDate
 
-        val startDay = cal.getActualMinimum(rangeType) //get the first date of the month
+        val startDay = cal.getActualMinimum(rangeType)
         cal.set(rangeType, startDay)
         val startDate = cal.time
-        dateStart = startDate.time //convert to millis
+        dateStart = startDate.time
 
-        val endDay = cal.getActualMaximum(rangeType) //get the last date of the month
+        val endDay = cal.getActualMaximum(rangeType)
         cal.set(rangeType, endDay)
         val endDate = cal.time
-        dateEnd= endDate.time //convert to millis
+        dateEnd= endDate.time
     }
 
     private fun getTransactionData() {
         shimmerLoading.startShimmerAnimation()
         shimmerLoading.visibility = View.VISIBLE
         tvVisibilityNoData.visibility = View.GONE
-        transactionRecyclerView.visibility = View.GONE //hide the recycler view
+        transactionRecyclerView.visibility = View.GONE
         tvNoData.visibility = View.GONE
         noDataImage.visibility = View.GONE
         tvNoDataTitle.visibility = View.GONE
 
-        val uid = user?.uid //get user id from database
+        val uid = user?.uid
         if (uid != null) {
             dbRef = FirebaseDatabase.getInstance().getReference(uid)
         }
-        val query: Query = dbRef.orderByChild("invertedDate") //sorting date descending
+        val query: Query = dbRef.orderByChild("invertedDate")
         query.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 transactionList.clear()
                 if (snapshot.exists()){
                     when (selectedType) {
-                        "All Type" -> { //all option selected
+                        "All Type" -> {
                             for (transactionSnap in snapshot.children){
                                 val transactionData = transactionSnap.getValue(TransactionModel::class.java) //reference data class
                                 if (selectedTimeSpan == "All Time"){
@@ -234,10 +225,10 @@ class TransactionFragment : Fragment() {
                                 }
                             }
                         }
-                        "Expense" -> { //expense option selected
+                        "Expense" -> {
                             for (transactionSnap in snapshot.children){
                                 val transactionData = transactionSnap.getValue(TransactionModel::class.java) //reference data class
-                                if (transactionData!!.type == 1){ //expense type
+                                if (transactionData!!.type == 1){
                                     if (selectedTimeSpan == "All Time"){
                                         transactionList.add(transactionData)
                                     }else{
@@ -251,8 +242,8 @@ class TransactionFragment : Fragment() {
                         }
                         "Income" -> {
                             for (transactionSnap in snapshot.children){
-                                val transactionData = transactionSnap.getValue(TransactionModel::class.java) //reference data class
-                                if (transactionData!!.type == 2){ //income type
+                                val transactionData = transactionSnap.getValue(TransactionModel::class.java)
+                                if (transactionData!!.type == 2){
                                     if (selectedTimeSpan == "All Time"){
                                         transactionList.add(transactionData)
                                     }else{
@@ -266,7 +257,7 @@ class TransactionFragment : Fragment() {
                         }
                     }
 
-                    if (transactionList.isEmpty()){ //if there is no data being displayed
+                    if (transactionList.isEmpty()){
                         noDataImage.visibility = View.VISIBLE
                         tvNoDataTitle.visibility = View.VISIBLE
                         tvVisibilityNoData.visibility = View.VISIBLE
@@ -275,11 +266,10 @@ class TransactionFragment : Fragment() {
                         val mAdapter = TransactionAdapter(transactionList)
                         transactionRecyclerView.adapter = mAdapter
 
-                        mAdapter.setOnItemClickListener(object: TransactionAdapter.onItemClickListener{ //item click listener and pass extra data
+                        mAdapter.setOnItemClickListener(object: TransactionAdapter.onItemClickListener{
                             override fun onItemClick(position: Int) {
                                 val intent = Intent(this@TransactionFragment.activity, TransactionDetails::class.java)
 
-                                //put extras
                                 intent.putExtra("transactionID", transactionList[position].transactionID)
                                 intent.putExtra("type", transactionList[position].type)
                                 intent.putExtra("title", transactionList[position].title)
@@ -318,15 +308,6 @@ class TransactionFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TransactionFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             TransactionFragment().apply {
@@ -338,8 +319,3 @@ class TransactionFragment : Fragment() {
     }
 }
 
-/* Catat Uang App,
-   A simple money tracker app.
-   Created By Ferry Dwianta P
-   First Created on 18/05/2022
-*/

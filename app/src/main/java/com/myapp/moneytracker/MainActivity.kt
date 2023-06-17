@@ -18,20 +18,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        //---Bottom Navigation Method 1 :
-//        binding.chipAppBar.setItemSelected(R.id.ic_transaction,true)
-//        supportFragmentManager.beginTransaction().replace(R.id.fl_wrapper,TransactionFragment()).commit()
-//        bottom_menu()
-//        //-------
-
-
-        //---Bottom Nabvigation Method 2 :
         val transactionFragment = TransactionFragment()
         val accountFragment = AccountFragment()
         binding.chipAppBar.setItemSelected(R.id.ic_transaction,true)
         makeCurrentFragment(transactionFragment)
-        binding.chipAppBar.setOnItemSelectedListener { //when the bottom nav clicked
+        binding.chipAppBar.setOnItemSelectedListener {
             when (it){
                 R.id.ic_transaction -> makeCurrentFragment(transactionFragment)
                 R.id.ic_account -> makeCurrentFragment(accountFragment)
@@ -39,26 +30,11 @@ class MainActivity : AppCompatActivity() {
             val b = true
             b
         }
-        //------
 
     }
 
-//    private fun bottom_menu() { //method 1
-//        binding.chipAppBar.setOnItemSelectedListener {
-//            when (it) {
-//                R.id.ic_transaction -> {
-//                    supportFragmentManager.beginTransaction()
-//                        .replace(R.id.fl_wrapper, TransactionFragment()).commit()
-//                }
-//                R.id.ic_account -> {
-//                    supportFragmentManager.beginTransaction()
-//                        .replace(R.id.fl_wrapper, AccountFragment()).commit()
-//                }
-//            }
-//        }
-//    }
 
-    private fun makeCurrentFragment(fragment: Fragment) { //method 2
+    private fun makeCurrentFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fl_wrapper, fragment)
             commit()

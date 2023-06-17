@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.myapp.moneytracker"
-        minSdk 23 //minSdk change to 23 from 21
+        minSdk 23
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -55,29 +55,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation platform('com.google.firebase:firebase-bom:32.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-
     implementation 'com.google.android.material:material:1.1.0'
-
-    // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-database-ktx:20.1.0')
-
-    // Declare the dependency for the Firebase Authentication library
     implementation 'com.google.firebase:firebase-auth-ktx'
-
-    // Declare the dependency for the Realtime Database library
-    // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-database-ktx'
-
-    //Pie Chart dependency : https://github.com/PhilJay/MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
-    //bottom navigation with floating action button : https://github.com/ismaeldivita/chip-navigation-bar
     implementation 'com.github.ismaeldivita:chip-navigation-bar:1.4.0'
-
-    //collapse toolbar : https://github.com/material-components/material-components-android
     implementation 'com.google.android.material:material:<1.6.0>'
-
-    //Shimmer Effect Dependencies
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 
 }

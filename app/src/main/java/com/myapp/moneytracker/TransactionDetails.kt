@@ -27,27 +27,20 @@ class TransactionDetails : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction_details)
-
-        //---back button---
         val backButton: ImageButton = findViewById(R.id.backBtn)
         backButton.setOnClickListener {
             finish()
         }
-        //--------
-
-        //--update data--
         val updateData: ImageButton = findViewById(R.id.updateData)
         updateData.setOnClickListener {
             openUpdateDialog(
                 intent.getStringExtra("title").toString()
             )
         }
-        //------
-
         deleteData()
 
-        initView() //call method for initialized each ui item
-        setValuesToViews() //call method for output the value on db
+        initView()
+        setValuesToViews()
     }
 
     private fun deleteData() {
@@ -67,11 +60,10 @@ class TransactionDetails : AppCompatActivity() {
     }
 
     private fun deleteRecord(transactionID: String) {
-        // --Initialize Firebase Auth and firebase database--
         val user = Firebase.auth.currentUser
         val uid = user?.uid
         if (uid != null) {
-            val dbRef = FirebaseDatabase.getInstance().getReference(uid).child(transactionID) //initialize database with uid as the parent
+            val dbRef = FirebaseDatabase.getInstance().getReference(uid).child(transactionID)
             val mTask = dbRef.removeValue()
 
             mTask.addOnSuccessListener {
@@ -83,7 +75,7 @@ class TransactionDetails : AppCompatActivity() {
         }
     }
 
-    private fun initView() { //initialized ui item id
+    private fun initView() {
         tvAmountDetails = findViewById(R.id.tvAmountDetails)
         tvTypeDetails = findViewById(R.id.tvTypeDetails)
         tvTitleDetails = findViewById(R.id.tvTitleDetails)
@@ -129,43 +121,36 @@ class TransactionDetails : AppCompatActivity() {
         val mDialogView = inflater.inflate(R.layout.update_dialog, null)
 
         mDialog.setView(mDialogView)
-
-        //---Initialize item---
         val etTitle = mDialogView.findViewById<EditText>(R.id.titleUpdate)
         val etCategory = mDialogView.findViewById<AutoCompleteTextView>(R.id.categoryUpdate)
         val etAmount = mDialogView.findViewById<EditText>(R.id.amountUpdate)
         val etDate = mDialogView.findViewById<EditText>(R.id.dateUpdate)
         val btnUpdateData = mDialogView.findViewById<Button>(R.id.updateButton)
         val etNote = mDialogView.findViewById<EditText>(R.id.noteUpdate)
-        //--------
-
         etTitle.setText(intent.getStringExtra("title").toString())
         etAmount.setText(intent.getDoubleExtra("amount", 0.0).toString())
         etNote.setText(intent.getStringExtra("note")).toString()
 
         val type: Int = intent.getIntExtra("type",0)
-        val transactionID = intent.getStringExtra("transactionID") //store transaction id
+        val transactionID = intent.getStringExtra("transactionID")
 
         //set text to auto complete text view category:
         val categoryOld = (intent.getStringExtra("category"))
         etCategory.setText(categoryOld)
 
-        val listExpense = CategoryOptions.expenseCategory() //getting the arrayList data from CategoryOptions file
+        val listExpense = CategoryOptions.expenseCategory()
         val expenseAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listExpense)
         etCategory.setAdapter(expenseAdapter)
 
-        if (type == 1) { //expense menu
-            etCategory.setAdapter(expenseAdapter) //if expense type selected, the set list expense array in category menu
+        if (type == 1) {
+            etCategory.setAdapter(expenseAdapter)
         }
-        if (type == 2){ //Income Menu
-            //if expense type selected, the set list income array in category menu :
+        if (type == 2){
+
             val listIncome = CategoryOptions.incomeCategory()
             val incomeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listIncome)
             etCategory.setAdapter(incomeAdapter)
         }
-        //-------
-
-        //---set text to date edit text and date picker:---
         val date: Long = intent.getLongExtra("date", 0)
         val cal = Calendar.getInstance()
         val getDate = Date(date) //convert millis to date format
@@ -175,10 +160,10 @@ class TransactionDetails : AppCompatActivity() {
         val resultParse = simpleDateFormat.format(getDate)
         etDate.setText(resultParse)
 
-        var dateUpdate: Long = intent.getLongExtra("date", 0) //initialized current date value on db
+        var dateUpdate: Long = intent.getLongExtra("date", 0)
         var invertedDate: Long = dateUpdate * -1
         etDate.setOnClickListener {
-            val year = cal.get(Calendar.YEAR) //set default year in datePickerDialog similar with database data
+            val year = cal.get(Calendar.YEAR)
             val month = cal.get(Calendar.MONTH)
             val day = cal.get(Calendar.DAY_OF_MONTH)
 
@@ -221,19 +206,16 @@ class TransactionDetails : AppCompatActivity() {
             )
             Toast.makeText(applicationContext, "Transaction Data Updated", Toast.LENGTH_LONG).show()
 
-            //setting updated data to textviews :
+
             tvTitleDetails.text = etTitle.text.toString()
             tvAmountDetails.text = etAmount.text.toString()
             tvNoteDetails.text = etNote.text.toString()
             tvCategoryDetails.text = etCategory.text.toString()
-            //tvDateDetails.text = etDate.hint.toString()
 
             val date: Long = dateUpdate
             val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
             val result = Date(date)
             tvDateDetails.text = simpleDateFormat.format(result)
-            //---
-
             alertDialog.dismiss()
         }
     }
@@ -248,19 +230,14 @@ class TransactionDetails : AppCompatActivity() {
         note: String,
         invertedDate: Long
     ){
-        // --Initialize Firebase Auth and firebase database--
+
         val user = Firebase.auth.currentUser
         val uid = user?.uid
         if (uid != null) {
-            val dbRef = FirebaseDatabase.getInstance().getReference(uid) //initialize database with uid as the parent
+            val dbRef = FirebaseDatabase.getInstance().getReference(uid)
             val transactionInfo = TransactionModel(transactionID, type, title, category, amount, date, note, invertedDate)
             dbRef.child(transactionID).setValue(transactionInfo)
         }
     }
 }
 
-/* Catat Uang App,
-   A simple money tracker app.
-   Created By Ferry Dwianta P
-   First Created on 18/05/2022
-*/

@@ -37,8 +37,6 @@ class Login : AppCompatActivity() {
         }
 
         emailLogin()
-
-        //Configure Google Signin
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("421950005869-ee6254fcstn4liije89gme9vp0kghoq5.apps.googleusercontent.com")
             .requestEmail()
@@ -47,7 +45,7 @@ class Login : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         binding.googleSignInBtn.setOnClickListener {
-            googleSignInClient.signOut() //signin options dialog will always show when button get click
+            googleSignInClient.signOut()
             signIn()
         }
 
@@ -60,17 +58,13 @@ class Login : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        //Result returned from launching the Intent from GoogleSignInAPI.getSignInIntent(..)
         if (requestCode == RC_SIGN_IN){
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
-                //google sign in was succesful, authenticate with firebase
                 val account = task.getResult(ApiException::class.java)!!
                 Log.d(ContentValues.TAG, "firebaseAuthWithGoogle:" + account.id)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException){
-                // Google Sign In Failed, update UI appropriately
                 Log.w(ContentValues.TAG, "Google sign in failed!", e)
             }
         }
@@ -82,14 +76,12 @@ class Login : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful){
-                    //Sign in success
                     Log.d(ContentValues.TAG, "signInWithCredential:success")
                     val intent = Intent(applicationContext, MainActivity::class.java)
                     Toast.makeText(this,"Login Successful", Toast.LENGTH_LONG).show()
                     binding.progressBar.visibility = View.GONE
                     startActivity(intent)
                 }else{
-                    //if sign in fails
                     Log.w(ContentValues.TAG, "signInWithCredential:failure", task.exception)
                     Toast.makeText(this, ""+task.exception, Toast.LENGTH_LONG).show()
                 }
@@ -101,7 +93,7 @@ class Login : AppCompatActivity() {
     }
 
     private fun emailLogin() {
-        binding.loginBtn.setOnClickListener { //when login button clicked.
+        binding.loginBtn.setOnClickListener {
 
             val email = binding.email.text.toString()
             val pass = binding.password.text.toString()
@@ -109,7 +101,7 @@ class Login : AppCompatActivity() {
             if (email.isNotEmpty() && pass.isNotEmpty()){
                 binding.progressBar.visibility = View.VISIBLE
                 auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
-                    if (it.isSuccessful){ //if the login successful, then change activity to main activity
+                    if (it.isSuccessful){
                         val intent = Intent(this, MainActivity::class.java)
                         Toast.makeText(this,"Login Successful", Toast.LENGTH_LONG).show()
                         binding.progressBar.visibility = View.GONE
@@ -126,11 +118,11 @@ class Login : AppCompatActivity() {
         }
     }
 
-    override fun onStart() { //if user already login, then can't go back to login activity
+    override fun onStart() {
         super.onStart()
         if (auth.currentUser != null){
             Intent(this, MainActivity::class.java).also {
-                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK //tujuan flag agar tidak bisa menggunakan back
+                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(it)
             }
         }
