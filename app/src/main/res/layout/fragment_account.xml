@@ -334,37 +334,6 @@
                                     android:orientation="horizontal"
                                     android:weightSum="2">
 
-                                    <RadioGroup
-                                        android:id="@+id/RadioGroup"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="28dp"
-                                        android:layout_margin="2dp"
-                                        android:orientation="horizontal">
-
-                                        <RadioButton
-                                            android:id="@+id/rbBarChart"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="1"
-                                            android:background="@drawable/chart_selector"
-                                            android:button="@drawable/null_radio_button"
-                                            android:checked="true"
-                                            android:gravity="center"
-                                            android:text="Amount"
-                                            android:textColor="@drawable/chart_text_selector" />
-
-                                        <RadioButton
-                                            android:id="@+id/rbPieChart"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="1"
-                                            android:background="@drawable/chart_selector"
-                                            android:button="@drawable/null_radio_button"
-                                            android:gravity="center"
-                                            android:text="Ratio"
-                                            android:textColor="@drawable/chart_text_selector" />
-
-                                    </RadioGroup>
 
                                 </LinearLayout>
 
@@ -379,13 +348,7 @@
                                 android:visibility="visible" />
 
 
-                            <com.github.mikephil.charting.charts.PieChart
-                                android:id="@+id/pieChart"
-                                android:layout_width="match_parent"
-                                android:layout_height="260dp"
-                                android:layout_below="@+id/chartMenu"
-                                android:layout_marginBottom="20dp"
-                                android:visibility="gone" />
+
 
                         </RelativeLayout>
 

@@ -71,7 +71,7 @@ class AccountFragment : Fragment() {
         chartMenu()
         Handler().postDelayed({
             showAllTimeRecap()
-            setupPieChart()
+
             setupBarChart()
         }, 200)
 
@@ -83,27 +83,21 @@ class AccountFragment : Fragment() {
         swipeRefreshLayout.setOnRefreshListener {
             accountDetails()
             showAllTimeRecap()
-            setupPieChart()
+
             setupBarChart()
             swipeRefreshLayout.isRefreshing = false
         }
     }
 
     private fun chartMenu() {
-        val chartMenuRadio: RadioGroup = requireView().findViewById(R.id.RadioGroup)
-        val pieChart: PieChart = requireView().findViewById(R.id.pieChart)
+
         val barChart: BarChart = requireView().findViewById(R.id.barChart)
 
-        chartMenuRadio.setOnCheckedChangeListener { _, checkedID ->
-            if (checkedID == R.id.rbBarChart){
-                barChart.visibility = View.VISIBLE
-                pieChart.visibility = View.GONE
-            }
-            if (checkedID == R.id.rbPieChart){
-                barChart.visibility = View.GONE
-                pieChart.visibility = View.VISIBLE
-            }
-        }
+
+        barChart.visibility = View.VISIBLE
+
+
+
     }
 
     private fun setInitDate() {
@@ -148,7 +142,7 @@ class AccountFragment : Fragment() {
                 fetchAmount(pickedDateStart, pickedDateEnd)
 
                 Handler().postDelayed({
-                    setupPieChart()
+
                     setupBarChart()
                 }, 200)
             }
@@ -249,32 +243,7 @@ class AccountFragment : Fragment() {
     }
 
 
-    private fun setupPieChart(){
-        val pieChart: PieChart = requireView().findViewById(R.id.pieChart)
-        val pieEntries = arrayListOf<PieEntry>()
-        pieEntries.add(PieEntry(amountExpense.toFloat(), "Expense"))
-        pieEntries.add(PieEntry(amountIncome.toFloat(), "Income"))
-        pieChart.animateXY(500, 500)
-        val pieDataSet = PieDataSet(pieEntries,"")
-        pieDataSet.setColors(
-            resources.getColor(R.color.orangeSecondary),
-            resources.getColor(R.color.orangePrimary)
-        )
 
-        pieChart.description.isEnabled = false
-        pieChart.legend.isEnabled = false
-        pieChart.setUsePercentValues(true)
-        pieChart.setEntryLabelTextSize(12f)
-        pieChart.setEntryLabelColor(Color.WHITE)
-        pieChart.holeRadius = 46f
-        val pieData = PieData(pieDataSet)
-        pieData.setDrawValues(true)
-        pieData.setValueFormatter(PercentFormatter(pieChart))
-        pieData.setValueTextSize(12f)
-        pieData.setValueTextColor(Color.WHITE)
-        pieChart.data = pieData
-        pieChart.invalidate()
-    }
 
     private fun fetchAmount(dateStart: Long, dateEnd: Long) {
         var amountExpenseTemp = 0.0
@@ -341,7 +310,7 @@ class AccountFragment : Fragment() {
         super.onResume()
 
         showAllTimeRecap()
-        setupPieChart()
+
         setupBarChart()
     }
 

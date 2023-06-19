@@ -63,7 +63,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="15dp"
                         android:fontFamily="@font/poppinsmedium"
-                        android:text="Select your \ntransaction visibility below"
+                        android:text="Select your \ntransaction type"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
