@@ -94,13 +94,14 @@ class TransactionDetails : AppCompatActivity() {
 
         if (type == 1) {
             tvTypeDetails.text = "Expense Transaction"
-            tvAmountDetails.setTextColor(Color.parseColor("#ff9f1c"))
-            detailsTitle.setBackgroundResource(R.drawable.bg_details_expense)
+            tvAmountDetails.setTextColor(Color.parseColor("#060A61"))
+            detailsTitle.setBackgroundResource(R.drawable.blue_background)
+            window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
         }else{
             tvTypeDetails.text = "Income Transaction"
-            tvAmountDetails.setTextColor(Color.parseColor("#2ec4b6"))
-            detailsTitle.setBackgroundResource(R.drawable.bg_details_income)
-            window.statusBarColor = ContextCompat.getColor(this, R.color.toscaSecondary)
+            tvAmountDetails.setTextColor(Color.parseColor("#ff9f1c"))
+            detailsTitle.setBackgroundResource(R.drawable.bg_details_expense)
+            window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
         }
 
         val date: Long = intent.getLongExtra("date", 0)

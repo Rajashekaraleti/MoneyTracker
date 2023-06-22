@@ -14,4 +14,6 @@
     <color name="greenIncome">#489E4C</color>
     <color name="redExpense">#D11818</color>
     <color name="toscaDarker">#03A5A3</color>
+    <color name="blue">#060A61</color>
+    <color name="blue_secondary">#0C13BC</color>
 </resources>

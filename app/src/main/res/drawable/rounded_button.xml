@@ -10,7 +10,7 @@
                 android:bottomRightRadius="20dp"
                 android:radius="10dp"/>
             <solid
-                android:color="#2ec4b6"/>
+                android:color="@color/blue"/>
         </shape>
     </item>
 

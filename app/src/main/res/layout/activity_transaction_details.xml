@@ -12,7 +12,7 @@
         android:id="@+id/transactionDetailsTitle"
         android:layout_width="match_parent"
         android:layout_height="270dp"
-        android:background="@drawable/bg_details_expense">
+        android:background="@drawable/blue_background">
 
         <Toolbar
             android:id="@+id/toolbar"

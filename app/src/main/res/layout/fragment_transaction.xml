@@ -20,7 +20,7 @@
                 android:id="@+id/up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_transaction_fragment"
+                android:background="@drawable/blue_background"
                 app:layout_collapseMode="parallax">
 
                 <Toolbar
@@ -39,7 +39,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="17dp"
                         android:fontFamily="@font/poppinsbold"
-                        android:text="Hi, Ferry!"
+                        android:text="Hi"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
 

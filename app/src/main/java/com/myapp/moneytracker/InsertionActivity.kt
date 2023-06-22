@@ -92,15 +92,15 @@ class InsertionActivity : AppCompatActivity() {
         if (type == 1){
             rbExpense.setBackgroundResource(R.drawable.radio_selected_expense)
             rbIncome.setBackgroundResource(R.drawable.radio_not_selected)
-            toolbarLinear.setBackgroundResource(R.drawable.bg_insert_expense)
-            btnSaveData.backgroundTintList = getColorStateList(R.color.orangePrimary)
-            window.statusBarColor = ContextCompat.getColor(this, R.color.orangePrimary)
+            toolbarLinear.setBackgroundResource(R.drawable.blue_background)
+            btnSaveData.backgroundTintList = getColorStateList(R.color.blue)
+            window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
         }else{
             rbIncome.setBackgroundResource(R.drawable.radio_selected_income)
             rbExpense.setBackgroundResource(R.drawable.radio_not_selected)
-            toolbarLinear.setBackgroundResource(R.drawable.bg_insert_income)
-            btnSaveData.backgroundTintList = getColorStateList(R.color.toscaSecondary)
-            window.statusBarColor = ContextCompat.getColor(this, R.color.toscaSecondary)
+            toolbarLinear.setBackgroundResource(R.drawable.bg_insert_expense)
+            btnSaveData.backgroundTintList = getColorStateList(R.color.orangePrimary)
+            window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
         }
     }
 

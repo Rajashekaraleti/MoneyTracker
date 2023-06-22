@@ -35,9 +35,9 @@ class TransactionAdapter (private val transactionList: ArrayList<TransactionMode
         holder.tvTransactionTitle.text = currentTransaction.title
 
         if (currentTransaction.type == 1){
-            holder.tvTransactionAmount.setTextColor(Color.parseColor("#ff9f1c"))
+            holder.tvTransactionAmount.setTextColor(Color.parseColor("#060A61"))
         }else{
-            holder.tvTransactionAmount.setTextColor(Color.parseColor("#2ec4b6"))
+            holder.tvTransactionAmount.setTextColor(Color.parseColor("#ff9f1c"))
         }
         holder.tvTransactionAmount.text = currentTransaction.amount.toString()
 
