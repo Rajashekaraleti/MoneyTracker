@@ -230,8 +230,8 @@ class AccountFragment : Fragment() {
 
         val barDataSet = BarDataSet(barEntries, "")
         barDataSet.setColors(
-            resources.getColor(R.color.orangeSecondary),
-            resources.getColor(R.color.orangePrimary)
+            resources.getColor(R.color.blue),
+            resources.getColor(R.color.blue_secondary)
         )
         barDataSet.valueTextColor = Color.BLACK
         barDataSet.valueTextSize = 15f
