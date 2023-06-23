@@ -150,18 +150,25 @@
                 android:layout_below="@id/pullIcon">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="389dp"
+                    android:layout_height="678dp"
                     android:orientation="vertical">
 
-                    <include layout="@layout/shimmer_placeholder_layout"/>
-                    <include layout="@layout/shimmer_placeholder_layout"/>
-                    <include layout="@layout/shimmer_placeholder_layout"/>
-                    <include layout="@layout/shimmer_placeholder_layout"/>
-                    <include layout="@layout/shimmer_placeholder_layout"/>
-                    <include layout="@layout/shimmer_placeholder_layout"/>
-                    <include layout="@layout/shimmer_placeholder_layout"/>
-                    <include layout="@layout/shimmer_placeholder_layout"/>
+                    <include layout="@layout/shimmer_placeholder_layout" />
+
+                    <include layout="@layout/shimmer_placeholder_layout" />
+
+                    <include layout="@layout/shimmer_placeholder_layout" />
+
+                    <include layout="@layout/shimmer_placeholder_layout" />
+
+                    <include layout="@layout/shimmer_placeholder_layout" />
+
+                    <include layout="@layout/shimmer_placeholder_layout" />
+
+                    <include layout="@layout/shimmer_placeholder_layout" />
+
+                    <include layout="@layout/shimmer_placeholder_layout" />
 
                 </LinearLayout>
 

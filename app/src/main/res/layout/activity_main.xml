@@ -17,7 +17,7 @@
         android:onClick="floating_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/toscaSecondary"
+        android:backgroundTint="@color/blue"
         app:layout_anchor="@id/bottom_navigation"
         app:maxImageSize="40dp"
         app:tint="@android:color/white"

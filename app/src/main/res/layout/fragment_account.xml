@@ -233,7 +233,7 @@
                                     android:layout_weight="1"
                                     android:fontFamily="@font/poppinsmedium"
                                     android:text="0.00"
-                                    android:textColor="@color/orangePrimary"
+                                    android:textColor="@color/blue_secondary"
                                     android:textSize="18sp" />
 
                             </LinearLayout>
@@ -285,7 +285,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginBottom="20dp"
-                                android:backgroundTint="@color/toscaSecondary"
+                                android:backgroundTint="@color/blue"
                                 android:drawableLeft="@drawable/ic_calendar_svgrepo_com"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:insetTop="1dp"

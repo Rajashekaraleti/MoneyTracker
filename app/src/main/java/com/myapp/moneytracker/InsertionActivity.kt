@@ -100,7 +100,7 @@ class InsertionActivity : AppCompatActivity() {
             rbExpense.setBackgroundResource(R.drawable.radio_not_selected)
             toolbarLinear.setBackgroundResource(R.drawable.bg_insert_expense)
             btnSaveData.backgroundTintList = getColorStateList(R.color.orangePrimary)
-            window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
+            window.statusBarColor = ContextCompat.getColor(this, R.color.orangePrimary)
         }
     }
 
