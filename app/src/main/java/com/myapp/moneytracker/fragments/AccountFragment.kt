@@ -90,19 +90,12 @@ class AccountFragment : Fragment() {
     }
 
     private fun chartMenu() {
-
         val barChart: BarChart = requireView().findViewById(R.id.barChart)
-
-
         barChart.visibility = View.VISIBLE
-
-
-
     }
 
     private fun setInitDate() {
         val dateRangeButton: Button = requireView().findViewById(R.id.buttonDate)
-
         val currentDate = Date()
         val cal: Calendar = Calendar.getInstance(TimeZone.getDefault())
         cal.time = currentDate
@@ -216,18 +209,14 @@ class AccountFragment : Fragment() {
         barChart.setScaleEnabled(false)
         barChart.setFitBars(true)
         barChart.legend.isEnabled = false
-
         barChart.axisRight.isEnabled = false
         barChart.axisLeft.isEnabled = false
         barChart.axisLeft.axisMinimum = 0f
-
-
         val xAxis = barChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
         xAxis.granularity = 1f
         xAxis.valueFormatter = com.github.mikephil.charting.formatter.IndexAxisValueFormatter(xAxisValue)
-
         val barDataSet = BarDataSet(barEntries, "")
         barDataSet.setColors(
             resources.getColor(R.color.blue),
@@ -241,15 +230,10 @@ class AccountFragment : Fragment() {
 
         barChart.data = barData
     }
-
-
-
-
     private fun fetchAmount(dateStart: Long, dateEnd: Long) {
         var amountExpenseTemp = 0.0
         var amountIncomeTemp = 0.0
         val transactionList: ArrayList<TransactionModel> = arrayListOf<TransactionModel>()
-
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 transactionList.clear()
@@ -308,13 +292,9 @@ class AccountFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         showAllTimeRecap()
-
         setupBarChart()
     }
-
-
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =

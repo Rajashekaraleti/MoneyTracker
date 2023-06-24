@@ -204,8 +204,6 @@ class TransactionDetails : AppCompatActivity() {
                 invertedDate
             )
             Toast.makeText(applicationContext, "Transaction Data Updated", Toast.LENGTH_LONG).show()
-
-
             tvTitleDetails.text = etTitle.text.toString()
             tvAmountDetails.text = etAmount.text.toString()
             tvNoteDetails.text = etNote.text.toString()

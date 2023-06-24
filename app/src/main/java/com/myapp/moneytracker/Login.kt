@@ -35,8 +35,6 @@ class Login : AppCompatActivity() {
         binding.forgotPassword.setOnClickListener {
             startActivity(Intent(this, ForgotPassword::class.java))
         }
-
-
         emailLogin()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("421950005869-ee6254fcstn4liije89gme9vp0kghoq5.apps.googleusercontent.com")
@@ -44,8 +42,6 @@ class Login : AppCompatActivity() {
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
-
-
     }
 
     private fun signIn() {

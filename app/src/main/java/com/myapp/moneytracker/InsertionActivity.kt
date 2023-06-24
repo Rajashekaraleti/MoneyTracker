@@ -29,7 +29,6 @@ class InsertionActivity : AppCompatActivity() {
     private var amount: Double = 0.0
     private var date: Long = 0
     private var invertedDate: Long = 0
-
     private lateinit var dbRef: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private var isSubmitted: Boolean = false
@@ -37,13 +36,11 @@ class InsertionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_insertion)
-
         val backButton: ImageButton = findViewById(R.id.backBtn)
         backButton.setOnClickListener {
             finish()
         }
         initItem()
-
         val user = Firebase.auth.currentUser
         val uid = user?.uid
         if (uid != null) {
@@ -55,7 +52,6 @@ class InsertionActivity : AppCompatActivity() {
         val listExpense = CategoryOptions.expenseCategory()
         val expenseAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listExpense)
         etCategory.setAdapter(expenseAdapter)
-
         radioGroup.setOnCheckedChangeListener { _, checkedID ->
             etCategory.text.clear()
             if (checkedID == R.id.rbExpense) {
@@ -66,7 +62,6 @@ class InsertionActivity : AppCompatActivity() {
             if (checkedID == R.id.rbIncome){
                 type = 2
                 setBackgroundColor()
-
                 val listIncome = CategoryOptions.incomeCategory()
                 val incomeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listIncome)
                 etCategory.setAdapter(incomeAdapter)
@@ -122,7 +117,6 @@ class InsertionActivity : AppCompatActivity() {
         val year = myCalendar.get(Calendar.YEAR)
         val month = myCalendar.get(Calendar.MONTH)
         val day = myCalendar.get(Calendar.DAY_OF_MONTH)
-
         val dpd = DatePickerDialog(this,
             { _, selectedYear, selectedMonth, selectedDayOfMonth ->
 
@@ -132,7 +126,7 @@ class InsertionActivity : AppCompatActivity() {
 
                 val sdf = java.text.SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
                 val theDate = sdf.parse(selectedDate)
-                date = theDate!!.time //convert date to millisecond
+                date = theDate!!.time
 
             },
             year,

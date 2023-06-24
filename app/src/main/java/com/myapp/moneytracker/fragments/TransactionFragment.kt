@@ -90,15 +90,12 @@ class TransactionFragment : Fragment() {
         val tvUserName: TextView = requireView().findViewById(R.id.userNameTV)
         val email = user!!.email
         val userName = user.displayName
-
-
         val name = if (userName == null || userName == ""){
             val splitValue = email?.split("@")
             splitValue?.get(0).toString()
         }else{
             userName
         }
-
         tvUserName.text = "Hi, ${name}!"
     }
 
@@ -286,7 +283,6 @@ class TransactionFragment : Fragment() {
 
         getTransactionData()
     }
-
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =

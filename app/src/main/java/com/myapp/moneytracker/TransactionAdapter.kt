@@ -33,7 +33,6 @@ class TransactionAdapter (private val transactionList: ArrayList<TransactionMode
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentTransaction = transactionList[position]
         holder.tvTransactionTitle.text = currentTransaction.title
-
         if (currentTransaction.type == 1){
             holder.tvTransactionAmount.setTextColor(Color.parseColor("#060A61"))
         }else{
