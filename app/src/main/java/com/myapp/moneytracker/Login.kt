@@ -63,6 +63,7 @@ class Login : AppCompatActivity() {
         }
     }
 
+
     private fun firebaseAuthWithGoogle(idToken: String){
         binding.progressBar.visibility = View.VISIBLE
         val credential = GoogleAuthProvider.getCredential(idToken, null)
