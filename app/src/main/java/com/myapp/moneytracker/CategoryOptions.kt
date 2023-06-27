@@ -15,7 +15,7 @@ object CategoryOptions {
         listExpense.add("Health")
         listExpense.add("Other Expense")
 
-        return listExpense
+        return listExpense //here it returns the list 
     }
 
     fun incomeCategory(): ArrayList<String> {
@@ -26,6 +26,6 @@ object CategoryOptions {
         listIncome.add("Investment Return")
         listIncome.add("Other Income")
 
-        return listIncome
+        return listIncome //here it returns the list 
     }
 }
