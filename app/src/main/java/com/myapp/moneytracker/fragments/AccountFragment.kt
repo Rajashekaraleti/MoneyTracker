@@ -104,6 +104,7 @@ class AccountFragment : Fragment() {
         cal.set(Calendar.DAY_OF_MONTH, startDay)
         val startDate = cal.time
         dateStart= startDate.time
+        
 
         val endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
         cal.set(Calendar.DAY_OF_MONTH, endDay)
