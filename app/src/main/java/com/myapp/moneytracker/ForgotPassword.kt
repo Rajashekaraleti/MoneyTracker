@@ -7,12 +7,12 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
-class ForgotPassword : AppCompatActivity() {
+class ForgotPassword : AppCompatActivity() { //the function for forgot password
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
 
-        val submitButton: Button = findViewById(R.id.forgotPassBtn)
+        val submitButton: Button = findViewById(R.id.forgotPassBtn) 
         val etEmail: EditText = findViewById(R.id.emailForgotPass)
 
         submitButton.setOnClickListener {
